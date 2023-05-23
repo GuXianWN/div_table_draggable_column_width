@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    .table {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid black;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid black;
+        width: 100px;
+        height: 50px;
+    }
+
+    .handle {
+        width: 10px;
+        cursor: col-resize;
+    }
+</style>
+
+<div class="table">
+    <div class="row">
+        <div class="cell">Name</div>
+        <div class="handle"></div>
+        <div class="cell">Age</div>
+        <div class="handle"></div>
+        <div class="cell">Gender</div>
+    </div>
+    <div class="row">
+        <div class="cell">Alice</div>
+        <div class="handle"></div>
+        <div class="cell">25</div>
+        <div class="handle"></div>
+        <div class="cell">Female</div>
+    </div>
+    <div class="row">
+        <div class="cell">Bob</div>
+        <div class="handle"></div>
+        <div class="cell">30</div>
+        <div class="handle"></div>
+        <div class="cell">Male</div>
+    </div>
+</div>
+
+<script>
+    // Get all the handles
+    const handles = document.querySelectorAll(".handle");
+
+    // Loop through each handle
+    for (let handle of handles) {
+        // Add mouse down event listener
+        handle.addEventListener("mousedown", function (e) {
+            console.log("1")
+            // Get the previous cell
+            const prevCell = handle.previousElementSibling;
+            // Get the initial mouse position and cell width
+            const startX = e.pageX;
+            const startWidth = prevCell.offsetWidth;
+            // Define a function to handle mouse move event
+            function onMouseMove(e) {
+                // Calculate the new cell width based on mouse position
+                const newWidth = startWidth + e.pageX - startX;
+                // Set the new cell width
+                prevCell.style.width = newWidth + "px";
+            }
+            // Define a function to handle mouse up event
+            function onMouseUp() {
+                // Remove the mouse move and mouse up event listeners
+                document.removeEventListener("mousemove", onMouseMove);
+                document.removeEventListener("mouseup", onMouseUp);
+            }
+
+            // Add mouse move and mouse up event listeners
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("mouseup", onMouseUp);
+        });
+    }
+</script>
+
+</body>
+</html>
